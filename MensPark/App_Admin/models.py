@@ -24,7 +24,7 @@ class Products(models.Model):
     image = models.ImageField(upload_to='product_images')
     size = models.CharField(max_length=50, choices=SIZE_CHOICES)
     made_in = models.CharField(max_length=50)
-    description = models.CharField(max_length=200, null=True)
+    description = models.CharField(max_length=1000, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, default='')
     date = models.DateTimeField(auto_now_add=True)
 

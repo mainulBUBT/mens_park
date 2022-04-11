@@ -38,7 +38,7 @@ def admin_logout(request):
 def dashboard(request):
     return render(request, 'App_Admin/dashboard.html')
 
-
+@login_required
 def add_products(request):
     form = ProductForm()
 
@@ -51,6 +51,26 @@ def add_products(request):
 
     return render(request, 'App_Admin/add_products.html', context={'form':form})
 
+@login_required
 def all_products(request):
     products = Products.objects.all()
     return render(request, 'App_Admin/all_products.html', context={'items': products})
+
+@login_required
+def edit_product(request,product_id):
+    product = Products.objects.get(id=product_id)
+    form = ProductForm(instance=product)
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product Updated successfully!', extra_tags='success')
+            return HttpResponseRedirect(reverse('App_Admin:all_products'))
+    return render(request, 'App_Admin/edit_product.html', context={'form':form})
+    
+@login_required
+def delete_product(request,product_id):
+    product = Products.objects.get(id=product_id).delete()
+    messages.success(request, 'Product Deleted successfully!', extra_tags='success')
+    return HttpResponseRedirect(reverse('App_Admin:all_products'))

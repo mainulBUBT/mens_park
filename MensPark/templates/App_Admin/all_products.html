@@ -3,10 +3,20 @@
 {% block body %}
 <main>
     <div class="container-fluid px-4 mt-5">
+        {% if messages %}
+
+        {% for message in messages %}
+        <div class="alert alert-{{ message.extra_tags }} alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{message}}
+        </div>
+        {% endfor %}
+
+        {% endif %}
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Completed Orders List
+                All Products List
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
@@ -25,16 +35,19 @@
                     </thead>
                     <tbody>
                         {% for item in items %}
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.gsm}}</td>
-                        <td>{{item.size}}</td>
-                        <td>{{item.category}}</td>
-                        <td>{{item.description}}</td>
-                        <td>{{item.date|date:"M d, Y"}}</td>
-                        <td><button type="button" class="btn btn-warning editbtn" data-bs-toggle="modal" data-bs-target="#editmodal"><i class="fas fa-edit"></i></button></td>
-										<td><button type="button" class="btn btn-danger dlt" data-bs-toggle="modal" data-bs-target="#delete"><i class="fas fa-trash"></i></button></td>                        {% endfor %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.gsm}}</td>
+                            <td>{{item.size}}</td>
+                            <td>{{item.category}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.date|date:"M d, Y"}}</td>
+                            <td><a href="{% url 'App_Admin:edit_product' product_id=item.id %}" class="btn btn-warning"><i class="fas fa-edit"></i></a></td>
+                            <td><a href="{% url 'App_Admin:delete_product' product_id=item.id %}" onclick="confirm('Want to delete product?')" class="btn btn-danger dlt"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
