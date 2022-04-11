@@ -1,0 +1,45 @@
+{% extends 'App_Admin/base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4 mt-5">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Completed Orders List
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">GSM</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Date</th>
+                            <th colspan="2" style="text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.gsm}}</td>
+                        <td>{{item.size}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.date|date:"M d, Y"}}</td>
+                        <td><button type="button" class="btn btn-warning editbtn" data-bs-toggle="modal" data-bs-target="#editmodal"><i class="fas fa-edit"></i></button></td>
+										<td><button type="button" class="btn btn-danger dlt" data-bs-toggle="modal" data-bs-target="#delete"><i class="fas fa-trash"></i></button></td>                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from .models import Products
+
 from .forms import ProductForm
 
 
@@ -48,3 +50,7 @@ def add_products(request):
             return HttpResponseRedirect(reverse('App_Admin:add_products'))
 
     return render(request, 'App_Admin/add_products.html', context={'form':form})
+
+def all_products(request):
+    products = Products.objects.all()
+    return render(request, 'App_Admin/all_products.html', context={'items': products})
