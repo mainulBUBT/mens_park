@@ -2,39 +2,119 @@
 
 {% block body %}
 
-<section class="pt-5 pb-5">
-    <div class="container">
-      <div class="row mb-md-2">
-          {% for item in items %}
-          <div class="col-md-3">
-            <div class="card shadow-sm border-light mb-4">
-              <a href="" class="position-relative">
-               <img src='media/{{item.image}}' height='220px' class='card-img-top' alt='image'> </a>
-               <div class="card-body">
-                <a href="#">
-                  <h5 class="font-weight-normal text-center text-title"><a href="">{{item.name}}</a></h5>
-                </a>
-                <!--  <div class="post-meta"><span class="small lh-120"><i class="fas fa-map-marker-alt mr-2"></i>Los-Angeles, Hollywood, USA</span></div> -->
-  
-                <h3 class="text-center text-head">
-                    {{item.price}}৳
-                </h3>
-  
-                <form action="index.php" method="POST">
-                  <div class="d-flex justify-content-between">
-                   <button type="submit" class="btn btn-primary btn-block" name="add-cart" value="">See Details</button>
-                 </div>
-               </form>
-             </div>
-           </div>
-         </div>
-      {% endfor %}
-     </div>
-     {{latitude}}
-  
-     <iframe width="100%" height="500" src="https://maps.google.com/maps?q={{latitude}},{{longitude}}&output=embed"></iframe>
-     <iframe width="100%" height="500" src={{map}}></iframe>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4 col-sm-12">
+      <img src="/./media/outlet_images/mens_park.jpg" alt="" width="100%" height="auto">
     </div>
-  </section>
-  
-  {% endblock %}
+    <div class="col-md-8 col-sm-12">
+      <div class="card text-left">
+        <div class="card-body">
+          <h4 class="card-title">About Men's Park</h4>
+          <p class="card-text">‘Mens Park’ is a Chattagram based menswear brand, they have been selling menswear since
+            2004. Their first and main outlet is situated at Singapur Bangkok Market, Agrabad, Chattagram.
+            They have several outlets all over Bangladesh. Their theme color is Red & Black.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section class="pt-5 pb-5">
+  <div class="container">
+    {% if messages %}
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.extra_tags }} alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{message}}
+    </div>
+    {% endfor %}
+
+    {% endif %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="input-group mb-5">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Search by product name</span>
+        </div>
+        <input type="text" class="form-control" name="key">
+        <input type="submit" class="btn btn-primary" value="Search">
+      </div>
+    </form>
+    <div class="row mb-md-2">
+      {% for item in items %}
+      <div class="col-md-3">
+        <div class="card shadow-sm border-light mb-4">
+          <a href="" class="position-relative">
+            <img src='media/{{item.image}}' height='220px' class='card-img-top' alt='image'> </a>
+          <div class="card-body">
+            <a href="#">
+              <h5 class="font-weight-normal text-center text-title"><a href="">{{item.name}}</a></h5>
+            </a>
+            <!--  <div class="post-meta"><span class="small lh-120"><i class="fas fa-map-marker-alt mr-2"></i>Los-Angeles, Hollywood, USA</span></div> -->
+
+            <h3 class="text-center text-head">
+              {{item.price}}৳
+            </h3>
+
+            <form action="index.php" method="POST">
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary btn-block" name="add-cart" value="">See Details</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="container mt-5">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs container row">
+        <li class="nav-item col-md-6">
+          <a class="nav-link active text-center text-dark" href="#outlets">All Outlets</a>
+        </li>
+        <li class="nav-item col-md-6">
+          <a class="nav-link text-center text-dark" href="#maps">Maps Location</a>
+        </li>
+
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div id="outlets" class="container tab-pane active"><br>
+          <h3>Our All Outlets</h3>
+          <table class="table table-striped bg-white">
+            <thead>
+              <tr>
+                <th>Outlates Address</th>
+                <th>Maps Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for outlet in outlets %}
+              <tr>
+                <td> <i class="fa fa-map-marker" aria-hidden="true"></i>
+                   {{outlet.address}}</td>
+                <td><a href="{{outlet.map_link}}">Click to view</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div id="maps" class="container tab-pane fade text-center"><br>
+          <h3>All Outlets in Map</h3>
+          <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1B2BBAsDrtT3sF-NXindOcA3Ptsxo0aim&ehbc=2E312F" width="640" height="480"></iframe>        </div>
+      </div>
+    </div>
+
+    <!-- <iframe width="100%" height="500" src="https://maps.google.com/maps?q={{latitude}},{{longitude}}&output=embed"></iframe>
+     <iframe width="100%" height="500" src={{map}}></iframe> -->
+  </div>
+</section>
+
+{% endblock %}

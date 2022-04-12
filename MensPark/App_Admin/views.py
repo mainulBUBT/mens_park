@@ -37,7 +37,9 @@ def admin_logout(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'App_Admin/dashboard.html')
+    counts = Outlets.objects.count()
+    all_outlets = Outlets.objects.all()
+    return render(request, 'App_Admin/dashboard.html', context={'counts':counts, 'all_outlets':all_outlets})
 
 @login_required
 def add_products(request):
@@ -73,17 +75,24 @@ def edit_product(request,product_id):
 @login_required
 def delete_product(request,product_id):
     product = Products.objects.get(id=product_id).delete()
-    messages.success(request, 'Product Deleted successfully!', extra_tags='success')
-    return HttpResponseRedirect(reverse('App_Admin:all_products'))
+    if product:
+        messages.success(request, 'Product Deleted successfully!', extra_tags='success')
+        return HttpResponseRedirect(reverse('App_Admin:all_products'))
 
 def show_products(request):
     items = Products.objects.all()
+    outlets = Outlets.objects.all()
     if request.method == "POST":
         key = request.POST.get('key')
-        items = Products.objects.get(id=key)
-        
+        items = Products.objects.filter(name__contains=key)
+        if items:
+            messages.success(request, f'You\'ve Searched Product(s) {key}.', extra_tags='success')
+        else:
+            messages.success(request, 'The product is not available', extra_tags='danger')
+            return HttpResponseRedirect(reverse('App_Admin:show_products'))
+
     map = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2952.0594696309417!2d90.39785852559339!3d23.87422598409942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c43bb8c21a3b%3A0xf37e844834c635fa!2sMascot%20Plaza%2C%20Uttara%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1649771713356!5m2!1sen!2sbd" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">'
-    return render(request, 'App_Admin/index.html', context={'items':items, 'latitude':23.815414889088338, 'longitude':90.36611284885306, 'map':map})
+    return render(request, 'App_Admin/index.html', context={'items':items, 'latitude':23.815414889088338, 'longitude':90.36611284885306, 'map':map, 'outlets':outlets})
 
 
 def all_outlets(request):

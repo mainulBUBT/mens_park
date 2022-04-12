@@ -43,17 +43,9 @@
                         <a class="nav-link" href="{% url 'App_Admin:show_products' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Categories</a>
-                            <div class="dropdown-menu">
-
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'App_Admin:login' %}">
                             Login
-                            </a>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -83,7 +75,7 @@
             </div>
         </div>
     </header>
-    {%  block body %}
+    {% block body %}
 
     {% endblock %}
 
@@ -93,3 +85,10 @@
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="https://kit.fontawesome.com/417824116f.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $(".nav-tabs a").click(function () {
+                $(this).tab('show');
+            });
+        });
+    </script>
