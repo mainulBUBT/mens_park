@@ -28,3 +28,7 @@ This project created through most popular python framework name <b>Django</b>. N
 * user can see all the outlets name with attach google map directions
 * Also there are all outlets pinned into a tab 
 
+## LOGIN CREDENTIALS
+name: mihan
+<br>
+pass: 123
