@@ -1,0 +1,62 @@
+{% extends 'App_Admin/base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4 mt-5">
+        {% if messages %}
+
+        {% for message in messages %}
+        <div class="alert alert-{{ message.extra_tags }} alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{message}}
+        </div>
+        {% endfor %}
+
+        {% endif %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                All Products List
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Manager</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Opening Hr</th>
+                            <th scope="col">Closing Hr</th>
+                            <th scope="col">Off Day</th>
+                            <th scope="col">Maps</th>
+                            <th colspan="2" style="text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for outlet in outlets %}
+                        <tr>
+                            <td>{{outlet.id}}</td>
+                            <td>{{outlet.name}}</td>
+                            <td><img src="/media/{{outlet.image}}" width="60px" height="60px"></td>
+                            <td>{{outlet.cell}}</td>
+                            <td>{{outlet.manager_name}}</td>
+                            <td>{{outlet.address}}</td>
+                            <td>{{outlet.opening_hours}}</td>
+                            <td>{{outlet.closing_hours}}</td>
+                            <td>{{outlet.off_day}}</td>
+                            <td><a href="{{outlet.map_link}}">Click</a></td>
+                            <td><a href="{% url 'App_Admin:edit_outlet' outlet_id=outlet.id %}" class="btn btn-warning"><i class="fas fa-edit"></i></a></td>
+                            <td><a href="" onclick="confirm('Want to delete product?')" class="btn btn-danger dlt"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

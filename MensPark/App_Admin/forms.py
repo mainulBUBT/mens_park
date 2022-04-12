@@ -1,6 +1,7 @@
+from dataclasses import fields
 from django import forms
 
-from .models import Products
+from .models import Outlets, Products
 
 
 class ProductForm(forms.ModelForm):
@@ -19,3 +20,7 @@ class ProductForm(forms.ModelForm):
         self.fields['category'].widget.attrs['placeholder'] = 'Product Category'
         self.fields['description'].widget=forms.Textarea(attrs = {'class': 'form-control', 'placeholder': "Enter short description"})
 
+class OutletForm(forms.ModelForm):
+    class Meta:
+        model = Outlets
+        fields = '__all__'

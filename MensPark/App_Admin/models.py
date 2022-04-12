@@ -31,3 +31,17 @@ class Products(models.Model):
     def __str__(self):
         return self.name
     
+class Outlets(models.Model):
+    name = models.CharField(max_length=200)
+    cell = models.CharField(max_length=12)
+    manager_name = models.CharField(max_length=200)
+    address = models.CharField(max_length=200) 
+    map_link = models.CharField(max_length=200) 
+    embed_link = models.CharField(max_length=1000, null=True)
+    opening_hours = models.CharField(max_length=100) 
+    closing_hours = models.CharField(max_length=100) 
+    off_day = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='outlet_images')
+
+    def __str__(self):
+        return self.name

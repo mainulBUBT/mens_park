@@ -9,8 +9,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", views.index, name="index"),
-    path('admin_area/', include('App_Admin.urls')),
+    path('', include('App_Admin.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
